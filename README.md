@@ -187,7 +187,7 @@ Questions? Issues? Want to improve the demo?
 
  Developer Advocate @ Pydantic
 
-- 🐦 X: [@laisbsc](https://x.com/lais_bsc)
+- 🐦 X: [@lais_bsc](https://x.com/lais_bsc)
 - 💼 LinkedIn: [laisbsc](https://linkedin.com/in/laisbsc)
 
 ---
