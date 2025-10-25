@@ -170,7 +170,7 @@ This demo was created for the **Python Brasil 2025** talk:
 
 ## 🤝 Contributing
 
-Questions? Issues? Want to improve the demo?
+Feedback is extremely welcomed in the shape of PRs. Get contributing!
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/<name>`)
