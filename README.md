@@ -1,4 +1,4 @@
-# 🔥 AI Image Generator with Full Observability
+# 🔥 FastAPI AI Image Generator with Logfire Observability
 
 > Demo project for Python Brasil 2025 - Understanding Observability with OpenTelemetry, Logs, Spans & Traces
 
