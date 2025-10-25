@@ -26,7 +26,7 @@ async def lifespan(_app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
-logfire.instrument_fastapi(app)
+logfire.instrument_fastapi(app, capture_headers=True)
 this_dir = Path(__file__).parent
 image_dir = Path(__file__).parent / 'images'
 image_dir.mkdir(exist_ok=True)
@@ -47,7 +47,7 @@ async def generate_image(prompt: str) -> GenerateResponse:
     logfire.info(f'Generating image', prompt=prompt, prompt_lenght=len(prompt))
 
     with logfire.span('call_openai_api'):
-        response = await openai_client.images.generate(prompt=prompt, model='dall-e-3')
+        response = await openai_client.images.generate(prompt=prompt, model='dall-e-2')
         assert response.data, 'No image in response'
         image_url = response.data[0].url
         assert image_url, 'No image URL in response'
@@ -58,9 +58,9 @@ async def generate_image(prompt: str) -> GenerateResponse:
         path = f'{uuid4().hex}.jpg'
         (image_dir / path).write_bytes(http_response.content)
         image_size = len(http_response.content)
+        logfire.info(f'Image size: {image_size} bytes')
+        logfire.info('Image generated successfully', image_path=path, image_size=image_size)
 
-    logfire.info(f'Image size: {image_size} bytes')
-    logfire.info('Image generated successfully', image_path=path, image_size=image_size)
     return GenerateResponse(next_url=f'/display/{path}')
 
 
