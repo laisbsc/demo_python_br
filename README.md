@@ -1,6 +1,6 @@
 # 🔥 FastAPI AI Image Generator with Logfire Observability
 
-> Demo project for Python Brasil 2025 - Understanding Observability with OpenTelemetry, Logs, Spans & Traces
+> Demo project for Python Brasil 2025 - Understanding Observability with Logfire, OpenTelemetry, Logs, Spans & Traces
 
 [![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
