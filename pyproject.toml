@@ -1,12 +1,17 @@
 [project]
 name = "demo-python-br"
 version = "0.1.0"
-description = "Add your description here"
+description = "Demo project for Python in Brazil"
+author = [
+    { name = "Lais Carvalho", email = "lais@pydantic.dev"},
+    { name = "Samuel Colvin", email = "samuel@pydantic.dev"}
+]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi[standard]>=0.120.0",
     "httpx>=0.28.1",
+    "logfire[fastapi,httpx,openai]>=4.14.2",
     "openai>=2.6.1",
     "pydantic>=2.12.3",
 ]
