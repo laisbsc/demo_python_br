@@ -2,6 +2,11 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from uuid import uuid4
 
+from dotenv import load_dotenv
+load_dotenv(Path(__file__).parent / '.env')  # always load from project root
+
+import base64
+
 import logfire
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -10,7 +15,7 @@ from openai import AsyncOpenAI
 from pydantic import BaseModel, Field
 from starlette.responses import FileResponse
 
-logfire.configure(service_name='demo_python_brasil')
+logfire.configure(service_name='demo_py_br')
 http_client: AsyncClient
 openai_client = AsyncOpenAI()
 logfire.instrument_openai(openai_client)
@@ -47,17 +52,16 @@ async def generate_image(prompt: str) -> GenerateResponse:
     logfire.info(f'Generating image', prompt=prompt, prompt_lenght=len(prompt))
 
     with logfire.span('call_openai_api'):
-        response = await openai_client.images.generate(prompt=prompt, model='dall-e-2')
+        response = await openai_client.images.generate(prompt=prompt, model='gpt-image-1')
         assert response.data, 'No image in response'
-        image_url = response.data[0].url
-        assert image_url, 'No image URL in response'
+        b64_data = response.data[0].b64_json
+        assert b64_data, 'No image data in response'
 
     with logfire.span('download_and_save_image'):
-        http_response = await http_client.get(image_url)
-        http_response.raise_for_status()
+        image_bytes = base64.b64decode(b64_data)
         path = f'{uuid4().hex}.jpg'
-        (image_dir / path).write_bytes(http_response.content)
-        image_size = len(http_response.content)
+        (image_dir / path).write_bytes(image_bytes)
+        image_size = len(image_bytes)
         logfire.info(f'Image size: {image_size} bytes')
         logfire.info('Image generated successfully', image_path=path, image_size=image_size)
 

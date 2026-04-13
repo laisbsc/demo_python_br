@@ -7,7 +7,7 @@
 [![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-Instrumented-orange.svg)](https://opentelemetry.io/)
 [![Pydantic Logfire](https://img.shields.io/badge/Pydantic-Logfire-purple.svg)](https://pydantic.dev/logfire)
 
-A **fully instrumented** FastAPI application that generates AI images using OpenAI's DALL-E 3 API, demonstrating real-world observability patterns with OpenTelemetry and Pydantic Logfire.
+A **fully instrumented** FastAPI application that generates AI images using OpenAI's `gpt-image-1` API, demonstrating real-world observability patterns with OpenTelemetry and Pydantic Logfire.
 
 ---
 
@@ -25,7 +25,7 @@ This project demonstrates the **difference between traditional logs and modern o
 
 ## ✨ Features
 
-- 🖼️ **AI Image Generation** - Create images from text prompts using DALL-E 3
+- 🖼️ **AI Image Generation** - Create images from text prompts using `gpt-image-1`
 - 📊 **Full-Stack Instrumentation** - FastAPI, OpenAI, and HTTPX fully traced
 - 🔗 **Distributed Tracing** - Follow requests from browser → API → OpenAI → storage
 - 📈 **Real-time Observability** - View logs, spans, and traces in Pydantic Logfire
@@ -58,8 +58,11 @@ This project demonstrates the **difference between traditional logs and modern o
 ```
 
 3. **Set up environment variables**
+
+   Create a `.env` file in the project root:
 ```bash
-   export OPENAI_API_KEY="your-openai-api-key"
+   OPENAI_API_KEY="your-openai-api-key"
+   LOGFIRE_TOKEN="your-logfire-token"
 ```
 
 4. **Run the application**
@@ -80,11 +83,9 @@ Browser Request
     ↓
 FastAPI Endpoint (/generate)
     ↓
-OpenAI DALL-E 3 API (generate image)
+OpenAI gpt-image-1 API (generate image, returns base64)
     ↓
-HTTPX Client (download image)
-    ↓
-Local Storage (save as .jpg)
+Local Storage (decode & save as .jpg)
     ↓
 Response with display URL
 ```
@@ -114,9 +115,6 @@ POST /generate [2.5s]
 ├─ Generating image [0.1s]
 ├─ openai.images.generate [1.8s]
 │  └─ prompt: "sunset over mountains"
-├─ httpx.get [0.5s]
-│  ├─ url: https://oaidalleapiprodscus.blob...
-│  └─ size: 245678 bytes
 └─ Image generated successfully [0.1s]
    └─ path: a3f7c9d2.jpg
 ```
